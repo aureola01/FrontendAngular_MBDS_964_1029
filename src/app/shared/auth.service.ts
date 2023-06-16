@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -6,16 +11,24 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   loggedIn = false;
 
-  constructor() { }
+  uri_api = 'http://localhost:8010/api';
+
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
   // théoriquement, on devrait passer en paramètre le login
   // et le password, cette méthode devrait faire une requête
   // vers un Web Service pour vérifier que c'est ok, renvoyer
   // un token d'authentification JWT etc.
   // elle devrait renvoyer un Observable etc.
-  logIn() {
-    console.log("ON SE LOGGE")
-    this.loggedIn = true;
+  logIn(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.uri_api}/login`, { email, password }).pipe(
+      tap((response) => {
+        const token = response.token;
+        if (token) {
+          localStorage.setItem('token', token);
+        }
+      })
+    );
   }
 
   logOut() {
@@ -24,15 +37,27 @@ export class AuthService {
     this.loggedIn = false;
   }
 
+  isLoggedIn(): boolean {
+    const token = localStorage.getItem('token');
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      return true
+    }
+    return false
+  }
+
+  decodeToken() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const tokenPayload = this.jwtHelper.decodeToken(token);
+      return tokenPayload;
+    }
+  }
+
   // si on l'utilisait on ferai isAdmin().then(...)
   isAdmin() {
-    // Pour le moment, version simplifiée...
-    // on suppose qu'on est admin si on est loggué
-    const isUserAdminPromise = new Promise((resolve, reject) => {
-        resolve(this.loggedIn);
-    });
-
-    // on renvoie la promesse qui dit si on est admin ou pas
-    return isUserAdminPromise;
+    if (!this.isLoggedIn) return false
+    const payLoad = this.decodeToken()
+    if (payLoad.role == "admin") return true
+    return false
   }
 }

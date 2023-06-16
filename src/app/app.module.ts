@@ -18,6 +18,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtModule, JWT_OPTIONS, JwtModuleOptions } from '@auth0/angular-jwt';
+
+
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { RenduDirective } from './shared/rendu.directive';
 import { FormsModule } from '@angular/forms';
@@ -28,36 +32,48 @@ import { Routes, RouterModule } from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
-import { authGuard } from './shared/auth.guard';
-import { LoginComponent } from './login/login.component';  
+import { AuthGuard } from './shared/auth.guard';
+import { RoleGuard } from './shared/role.guard';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: AssignmentsComponent
+    component: AssignmentsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'home',
-    component: AssignmentsComponent
+    component: AssignmentsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'add',
-    component: AddAssignmentComponent
+    component: AddAssignmentComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'assignments/:id',
-    component: AssignmentDetailComponent
+    component: AssignmentDetailComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'assignments/:id/edit',
     component: EditAssignmentComponent,
-    canActivate: [authGuard]
+    canActivate: [RoleGuard]
   },
   {
     path: 'login',
     component: LoginComponent
   }
 ]
+const jwtOptions: JwtModuleOptions = {
+  config: {
+    tokenGetter: () => localStorage.getItem('token'),
+    allowedDomains: ['http://localhost:8010'],
+    disallowedRoutes: ['http://localhost:8010/api/login']
+  }
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,9 +93,10 @@ const routes: Routes = [
     MatButtonModule, MatIconModule, MatDividerModule,
     MatInputModule, MatFormFieldModule, MatDatepickerModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
-    MatTableModule, MatPaginatorModule
+    MatTableModule, MatPaginatorModule,
+    JwtModule.forRoot(jwtOptions)
   ],
-  providers: [],
+  providers: [JwtHelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
