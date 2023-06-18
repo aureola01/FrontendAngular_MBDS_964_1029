@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/shared/auth.service';
   styleUrls: ['./assignment-detail.component.css']
 })
 export class AssignmentDetailComponent implements OnInit {
-  assignmentTransmis?: Assignment;
+  assignmentTransmis?: any;
 
   constructor(private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
@@ -27,7 +27,20 @@ export class AssignmentDetailComponent implements OnInit {
     // on va chercher l'assignment à afficher
     this.assignmentsService.getAssignment(id)
       .subscribe(assignment => {
-        this.assignmentTransmis = assignment;
+        this.assignmentTransmis = {
+          _id: assignment?._id,
+          id: assignment?.id,
+          title: assignment?.title,
+          rendered: assignment?.rendered,
+          author: assignment?.author,
+          subject: assignment?.subject.valueOf(),
+          rating: assignment?.rating,
+          remarks: assignment?.remarks,
+          deadline: assignment?.deadline
+        }
+        // this.assignmentTransmis = assignment;
+
+        console.log(" this.assignmentTransmis "+ JSON.stringify(this.assignmentTransmis));
       });
   }
 
@@ -70,15 +83,15 @@ export class AssignmentDetailComponent implements OnInit {
     this.router.navigate(["/assignments", this.assignmentTransmis?.id, "edit"],
     {
       queryParams: {
-        nom: this.assignmentTransmis?.title,
-        matiere: "Angular"
+        title: this.assignmentTransmis?.title,
+        // matiere: "Angular"
       },
       fragment: "edition"
     });
   }
 
-  isLogged() {
+  isLoggedAsAdmin() {
     // renvoie si on est loggé ou pas
-    return this.authService.loggedIn;
+    return this.authService.isAdmin();
   }
 }
