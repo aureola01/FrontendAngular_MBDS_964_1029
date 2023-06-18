@@ -3,6 +3,8 @@ import { Assignment } from './assignment.model';
 import { AssignmentsService } from '../shared/assignments.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs';
+import { AuthService } from '../shared/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assignments',
@@ -14,7 +16,7 @@ export class AssignmentsComponent implements OnInit {
   // les données à afficher
   assignments:Assignment[] = [];
   // Pour la data table
-  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu'];
+  displayedColumns: string[] = ['id', 'title', 'deadline', 'rendered', 'author', 'subject', 'photo', 'rating', 'remarks', 'teacher_photo'];
 
   // propriétés pour la pagination
   page: number=1;
@@ -29,7 +31,7 @@ export class AssignmentsComponent implements OnInit {
 
   @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
 
-  constructor(private assignmentsService:AssignmentsService,
+  constructor(private assignmentsService:AssignmentsService, private authService: AuthService, private router: Router,
               private ngZone: NgZone) {    
   }
   
@@ -39,8 +41,12 @@ export class AssignmentsComponent implements OnInit {
     // page et limit, récupérer leur valeurs si elles existent
     // et les passer à la méthode getAssignments
     // TODO
-
-    this.getAssignments();
+    if(this.authService.isLoggedIn()){
+      console.log("c'est connectE!");
+      this.getAssignments();
+    }else{
+      this.router.navigate(['/login']);
+    }
   }
 
   ngAfterViewInit() { 
@@ -87,6 +93,7 @@ export class AssignmentsComponent implements OnInit {
 
     this.assignmentsService.getAssignments(this.page, this.limit)
     .subscribe(data => {
+      console.log("data = "+data.docs)
       this.assignments = data.docs;
       this.page = data.page;
       this.limit = data.limit;

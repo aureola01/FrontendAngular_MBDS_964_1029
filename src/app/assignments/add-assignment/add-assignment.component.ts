@@ -13,7 +13,12 @@ export class AddAssignmentComponent {
   // champs du formulaire
   nomDevoir = "";
   dateDeRendu!: Date;
-
+  auteur!: string;
+  note!: number;
+  remarque!: string;
+  nameSubject!: string;
+  photo!: string;
+  teacher_photo!: string;
 
   constructor(private assignmentsService: AssignmentsService,
               private router:Router) { }
@@ -26,9 +31,13 @@ export class AddAssignmentComponent {
     let nouvelAssignment = new Assignment();
     // génération d'id, plus tard ce sera fait dans la BD
     nouvelAssignment.id = Math.abs(Math.random() * 1000000000000000);
-    nouvelAssignment.nom = this.nomDevoir;
-    nouvelAssignment.dateDeRendu = this.dateDeRendu;
-    nouvelAssignment.rendu = false;
+    nouvelAssignment.title = this.nomDevoir;
+    nouvelAssignment.deadline = this.dateDeRendu;
+    nouvelAssignment.rendered = false;
+    nouvelAssignment.author = this.auteur;
+    nouvelAssignment.rating = this.note;
+    nouvelAssignment.remarks = this.remarque;
+    nouvelAssignment.subject = { name: this.nameSubject, photo: this.photo, teacher_photo: this.teacher_photo }
 
     // on demande au service d'ajouter l'assignment
     this.assignmentsService.addAssignment(nouvelAssignment)
