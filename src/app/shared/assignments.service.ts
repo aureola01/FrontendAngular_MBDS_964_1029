@@ -15,9 +15,9 @@ export class AssignmentsService {
   constructor(private loggingService: LoggingService,
     private http: HttpClient) { }
 
-  uri_api = 'http://localhost:8010/api/assignments';
-  // uri_api = 'https://mbds-madagascar-2022-2023-back-end.onrender.com/api/assignments';
-
+    uri_api = 'http://localhost:8010/api/assignments';
+    // uri_api = 'https://mbds-madagascar-2022-2023-back-end.onrender.com/api/assignments';
+    // uri_api = 'https://backend-mbds-964-1029.onrender.com/api/assignments';
 
   getAssignments(page: number, limit: number): Observable<any> {
     // normalement on doit envoyer une requête HTTP
@@ -25,7 +25,9 @@ export class AssignmentsService {
     // On a donc besoin "d'attendre que les données arrivent".
     // Angular utilise pour cela la notion d'Observable
     let token = localStorage.getItem('token');
+    console.log("token = " + token);
     let headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    console.log("header = "+JSON.stringify(headers))
     return this.http.get<Assignment[]>(this.uri_api + "?page=" + page + "&limit=" + limit, { headers });
 
     // of() permet de créer un Observable qui va
@@ -42,17 +44,17 @@ export class AssignmentsService {
       .pipe(
         map(a => {
           if (a) {
-            a.nom += " MAP MAP MAP";
+            a.title += " MAP MAP MAP";
           }
           return a;
         }),
         tap(a => {
           if (a)
-            console.log("ICI DANS LE TAP " + a.nom)
+            console.log("ICI DANS LE TAP " + a.title)
         }),
         map(a => {
           if (a) {
-            a.nom += " TOTOTOTO";
+            a.title += " TOTOTOTO";
           }
           return a;
         }),
@@ -77,7 +79,7 @@ export class AssignmentsService {
   };
 
   addAssignment(assignment: Assignment): Observable<any> {
-    this.loggingService.log(assignment.nom, 'ajouté');
+    this.loggingService.log(assignment.title, 'ajouté');
     let token = localStorage.getItem('token');
     let headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     // plus tard on utilisera un web service pour l'ajout dans une vraie BD
@@ -121,38 +123,38 @@ export class AssignmentsService {
     */
   }
 
-  peuplerBD() {
-    bdInitialAssignments.forEach(a => {
-      const newAssignment = new Assignment();
-      newAssignment.id = a.id;
-      newAssignment.nom = a.nom;
-      newAssignment.dateDeRendu = new Date(a.dateDeRendu);
-      newAssignment.rendu = a.rendu;
+  // peuplerBD() {
+  //   bdInitialAssignments.forEach(a => {
+  //     const newAssignment = new Assignment();
+  //     newAssignment.id = a.id;
+  //     newAssignment.nom = a.nom;
+  //     newAssignment.dateDeRendu = new Date(a.dateDeRendu);
+  //     newAssignment.rendu = a.rendu;
 
-      this.addAssignment(newAssignment)
-        .subscribe((reponse) => {
-          console.log(reponse.message);
-        })
-    })
-  }
+  //     this.addAssignment(newAssignment)
+  //       .subscribe((reponse) => {
+  //         console.log(reponse.message);
+  //       })
+  //   })
+  // }
 
   // cette version retourne un Observable. Elle permet de savoir quand
   // l'opération est terminée (l'ajout des 1000 assignments)
-  peuplerBDavecForkJoin(): Observable<any> {
-    // tableau d'observables (les valeurs de retour de addAssignment)
-    let appelsVersAddAssignment: Observable<any>[] = [];
+  // peuplerBDavecForkJoin(): Observable<any> {
+  //   // tableau d'observables (les valeurs de retour de addAssignment)
+  //   let appelsVersAddAssignment: Observable<any>[] = [];
 
-    bdInitialAssignments.forEach(a => {
-      const nouvelAssignment = new Assignment();
-      nouvelAssignment.id = a.id;
-      nouvelAssignment.nom = a.nom;
-      nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
-      nouvelAssignment.rendu = a.rendu;
+  //   bdInitialAssignments.forEach(a => {
+  //     const nouvelAssignment = new Assignment();
+  //     nouvelAssignment.id = a.id;
+  //     nouvelAssignment.nom = a.nom;
+  //     nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
+  //     nouvelAssignment.rendu = a.rendu;
 
-      appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment))
-    });
+  //     appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment))
+  //   });
 
-    return forkJoin(appelsVersAddAssignment);
-  }
+  //   return forkJoin(appelsVersAddAssignment);
+  // }
 
 }

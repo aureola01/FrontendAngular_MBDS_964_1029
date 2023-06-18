@@ -1,8 +1,12 @@
 export class Assignment {
     _id!: string;
     id!: number;
-    nom!: string;
-    dateDeRendu!: Date;
-    rendu!: boolean;
+    title!: string;
+    rendered!: Boolean;
+    author!: string;
+    subject!: Object;
+    rating!: Number;
+    remarks!: string;
+    deadline!: Date;
 }
 

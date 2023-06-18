@@ -26,6 +26,7 @@ export class AuthService {
         const token = response.token;
         if (token) {
           localStorage.setItem('token', token);
+          this.loggedIn = true;
         }
       })
     );
