@@ -36,6 +36,9 @@ import { AuthGuard } from './shared/auth.guard';
 import { RoleGuard } from './shared/role.guard';
 import { LoginComponent } from './login/login.component';
 
+import { MatToolbarModule } from '@angular/material/toolbar';
+
+
 const routes: Routes = [
   {
     path: '',
@@ -94,6 +97,7 @@ const jwtOptions: JwtModuleOptions = {
     MatInputModule, MatFormFieldModule, MatDatepickerModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
     MatTableModule, MatPaginatorModule,
+    MatToolbarModule,
     JwtModule.forRoot(jwtOptions)
   ],
   providers: [JwtHelperService],

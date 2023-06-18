@@ -28,6 +28,9 @@ export class AppComponent {
 
 
   }
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
 
   // login() {
   //   // utilise l'authService pour se connecter
