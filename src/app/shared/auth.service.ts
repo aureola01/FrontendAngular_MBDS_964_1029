@@ -11,7 +11,7 @@ import { tap } from 'rxjs/operators';
 export class AuthService {
   loggedIn = false;
 
-  uri_api = 'http://localhost:8010/api';
+  uri_api = 'https://backend-mbds-964-1029.onrender.com/api';
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
