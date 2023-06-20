@@ -11,10 +11,12 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   error: string = '';
+  loading: boolean = false
 
   constructor(private authService: AuthService, private router: Router) { }
 
   login(): void {
+    this.loading = true
     this.authService.logIn(this.email, this.password).subscribe(
       () => {
         this.router.navigate(['/']);
@@ -22,8 +24,10 @@ export class LoginComponent {
       (error) => {
         if (error.status == 400)
           this.error = "Identifiant invalide";
+        this.loading = false
         if (error.status == 500)
           this.error = "Erreur serveur"
+        this.loading = false
       }
     );
   }
