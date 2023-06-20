@@ -26,7 +26,6 @@ export class AuthService {
         const token = response.token;
         if (token) {
           localStorage.setItem('token', token);
-          this.loggedIn = true;
         }
       })
     );
@@ -58,7 +57,8 @@ export class AuthService {
   isAdmin() {
     if (!this.isLoggedIn) return false
     const payLoad = this.decodeToken()
-    if (payLoad.role == "admin") return true
+    console.log("tokenPayload = "+JSON.stringify(payLoad));
+    if (payLoad.user.role == "admin") return true
     return false
   }
 }

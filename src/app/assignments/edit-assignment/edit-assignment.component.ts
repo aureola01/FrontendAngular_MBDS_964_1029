@@ -19,6 +19,7 @@ export class EditAssignmentComponent implements OnInit {
   nameSubject!: string;
   photo!: string;
   teacher_photo!: string;
+  subject: any;
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -52,6 +53,12 @@ export class EditAssignmentComponent implements OnInit {
       this.titleAssignment = assignment.title;
       this.dateDeRendu = assignment.deadline;
       this.auteur = assignment.author;
+      //subject
+      this.subject = assignment.subject.valueOf();
+      this.nameSubject = this.subject.name;
+      this.photo = this.subject.photo;
+      this.teacher_photo = this.subject.teacher_photo;
+
       this.note = assignment.rating;
       this.remarque = assignment.remarks;
     

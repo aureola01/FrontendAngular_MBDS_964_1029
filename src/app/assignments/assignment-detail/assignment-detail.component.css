@@ -3,3 +3,13 @@
     align-items: flex-end;
     justify-content: space-between;
 }
+.detail-title{
+    font-size: 25px;
+    color: #9370DB;
+    text-align: center;
+    font-weight: bold;
+}
+
+.detail-content{
+    text-align: center;
+}

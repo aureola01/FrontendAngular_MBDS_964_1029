@@ -44,7 +44,7 @@ export class AssignmentsService {
       .pipe(
         map(a => {
           if (a) {
-            a.title += " MAP MAP MAP";
+            a.title;
           }
           return a;
         }),
@@ -54,7 +54,7 @@ export class AssignmentsService {
         }),
         map(a => {
           if (a) {
-            a.title += " TOTOTOTO";
+            a.title;
           }
           return a;
         }),

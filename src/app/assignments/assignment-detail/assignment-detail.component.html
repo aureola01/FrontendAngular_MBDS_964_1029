@@ -1,20 +1,25 @@
 <mat-card *ngIf="assignmentTransmis">
   <mat-card-content>
-    <mat-card-title>{{assignmentTransmis.title}}</mat-card-title>
-    <mat-card-subtitle>Date de rendu : {{assignmentTransmis.deadline | date: 'dd/MM/yy'}}</mat-card-subtitle>
+    <mat-card-title class="detail-title"> {{assignmentTransmis.title}}</mat-card-title>
+    <img mat-card-image src="{{assignmentTransmis.subject.photo}}" style="width: 100px; height:60px; margin-right: 500px; margin-left: 500px">
+    <mat-card-subtitle class="detail-content"> Auteur: {{assignmentTransmis.author}} </mat-card-subtitle>
+    <mat-card-subtitle class="detail-content"> Matière: {{assignmentTransmis.subject.name}} </mat-card-subtitle>
+    <mat-card-subtitle class="detail-content"> Note: {{assignmentTransmis.rating}} </mat-card-subtitle>
+    <mat-card-subtitle class="detail-content">  Remarques: {{assignmentTransmis.remarks}} </mat-card-subtitle>
+    <mat-card-subtitle class="detail-content"> Date de rendu: {{assignmentTransmis.deadline | date: 'dd/MM/yy'}}</mat-card-subtitle>
   </mat-card-content>
   <mat-card-actions id="bottom">
     <mat-checkbox *ngIf="!assignmentTransmis.rendered" (click)="onAssignmentRendu()">
-      Rendu
+      Rendre le devoir
     </mat-checkbox>
     
     <button mat-raised-button color="primary"
             (click)="onEditAssignment()"
-            [disabled]="!isLogged()"
+            [disabled]="!isLoggedAsAdmin()"
     >
-      EDIT
+      Modifier
     </button>
 
-  <button mat-raised-button color="accent" (click)="onDeleteAssignment()">DELETE</button>
+  <button mat-raised-button color="warn" (click)="onDeleteAssignment()" [disabled]="!isLoggedAsAdmin()">Supprimer</button>
   </mat-card-actions>
 </mat-card>
