@@ -4,7 +4,8 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selection de la page des assigments"
         (page)="handlePage($event)" class="demo-paginator" [length]="totalPages" [pageSize]="limit" [pageIndex]="page">
     </mat-paginator>
-    <table mat-table [dataSource]="assignments" class="mat-elevation-z8 demo-table">
+    <table mat-table [dataSource]="assignments"
+        class="mat-elevation-z8 demo-table mat-table-striped mat-table-hover mat-table-bordered mat-table-condensed">
         <!-- id Column -->
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> Id </th>
