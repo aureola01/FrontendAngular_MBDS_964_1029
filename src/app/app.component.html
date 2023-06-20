@@ -1,13 +1,12 @@
-<h1>
-    <nav>
-        <a routerLink="/home">{{title}}</a>
-    </nav>
-</h1>
-<!-- <p>
-    <button mat-raised-button color="primary" (click)="creerDonneesDeTest()">
-        Peupler BD avec données de test
-    </button>
-</p> -->
+<div *ngIf="isLoggedIn()">
+    <mat-toolbar style="background-color: #9370DB; color: white;">
+        <span>Gestion des devoirs</span>
+        <span class="spacer"></span>
+        <button mat-button routerLink="/">Accueil</button>
+        <button mat-button routerLink="/add">Ajouter devoir</button>
+        <button mat-button (click)="logout()">Deconnexion</button>
+    </mat-toolbar>
+</div>
 
 
 <!-- Indique que le composant affiché sera celui

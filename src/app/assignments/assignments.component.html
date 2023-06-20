@@ -1,158 +1,79 @@
-<h2>{{titre}}</h2>
+<h2>Liste des devoirs ( {{totalDocs}} )</h2>
 
 <main class="container">
-    <nav class="ajouterBtn">
-        <a routerLink="/add">
-            <button mat-flat-button color="accent"> Ajouter Assignment
-            </button>
-        </a>
-    </nav>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selection de la page des assigments"
+        (page)="handlePage($event)" class="demo-paginator" [length]="totalPages" [pageSize]="limit" [pageIndex]="page">
+    </mat-paginator>
+    <table mat-table [dataSource]="assignments"
+        class="mat-elevation-z8 demo-table mat-table-striped mat-table-hover mat-table-bordered mat-table-condensed">
+        <!-- id Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> Id </th>
+            <td mat-cell *matCellDef="let element">
+                <a routerLink="/assignments/{{element.id}}">{{element.id}}</a>
+            </td>
+        </ng-container>
+
+        <!-- nom Column -->
+        <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> Title </th>
+            <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
+
+        <!-- dateDeRendu Column -->
+        <ng-container matColumnDef="deadline">
+            <th mat-header-cell *matHeaderCellDef> Date de rendu </th>
+            <td mat-cell *matCellDef="let element"> {{element.deadline}} </td>
+        </ng-container>
+
+        <!-- rendu Column -->
+        <ng-container matColumnDef="rendered">
+            <th mat-header-cell *matHeaderCellDef> Rendu </th>
+            <td mat-cell *matCellDef="let element"> {{element.rendered}} </td>
+        </ng-container>
+
+        <!-- Author Column -->
+        <ng-container matColumnDef="author">
+            <th mat-header-cell *matHeaderCellDef> Auteur </th>
+            <td mat-cell *matCellDef="let element"> {{element.author}} </td>
+        </ng-container>
+
+        <!-- Subject Column -->
+        <ng-container matColumnDef="subject">
+            <th mat-header-cell *matHeaderCellDef> Matière </th>
+            <td mat-cell *matCellDef="let element"> {{element.subject.name}} </td>
+        </ng-container>
+
+        <!-- Subject photo Column -->
+        <ng-container matColumnDef="photo">
+            <th mat-header-cell *matHeaderCellDef> Photo </th>
+            <td mat-cell *matCellDef="let element"> <img src="{{element.subject.photo}}"> </td>
+        </ng-container>
+
+        <!-- Rating Column -->
+        <ng-container matColumnDef="rating">
+            <th mat-header-cell *matHeaderCellDef> Note </th>
+            <td mat-cell *matCellDef="let element"> {{element.rating}} </td>
+        </ng-container>
+
+        <!-- Remarks Column -->
+        <ng-container matColumnDef="remarks">
+            <th mat-header-cell *matHeaderCellDef> Remarque </th>
+            <td mat-cell *matCellDef="let element"> {{element.remarks}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="teacher_photo">
+            <th mat-header-cell *matHeaderCellDef> Professeur </th>
+            <td mat-cell *matCellDef="let element"> <img src="{{element.subject.teacher_photo}}"> </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Selection de la page des assigments"
+        (page)="handlePage($event)" class="demo-paginator" [length]="totalPages" [pageSize]="limit" [pageIndex]="page">
+    </mat-paginator>
 
 
- 
-    <mat-divider></mat-divider>
-    <p>
-        Nb assignments total {{totalDocs}}, par page {{limit}}, nbPages {{totalPages}}
-    </p>
-    <p>
-        Régler nb par page : 
-           <input type="range" 
-                  min=1 max=100 value=10 
-                  [(ngModel)]="limit"
-                  (change)="getAssignments()"
-           /> {{limit}}
-    </p>
-<p>
-    <button (click)="premierePage()" [disabled]="!hasPrevPage">
-        Première page
-    </button>
-    <button (click)="pagePrecedente()" [disabled]="!hasPrevPage">
-        Page Précédente
-    </button>
-    <button (click)="pageSuivante()" [disabled]="!hasNextPage">Page Suivante</button>
-    <button (click)="dernierePage()" [disabled]="!hasNextPage">
-        Derniere page
-    </button>
-</p>
-<h1>Affichage avec data table</h1>
-<mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Selection de la page des assigments"
-                 (page)="handlePage($event)"
-                 class="demo-paginator"
-                 [length]="totalPages"
-                 [pageSize]="limit"
-                 [pageIndex]="page"
-  >
-  </mat-paginator>
-<table mat-table [dataSource]="assignments" class="mat-elevation-z8 demo-table">
-    <!-- id Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef> Id </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-  
-    <!-- nom Column -->
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef> Title </th>
-      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-    </ng-container>
-  
-    <!-- dateDeRendu Column -->
-    <ng-container matColumnDef="deadline">
-      <th mat-header-cell *matHeaderCellDef> Date de rendu </th>
-      <td mat-cell *matCellDef="let element"> {{element.deadline}} </td>
-    </ng-container>
-  
-    <!-- rendu Column -->
-    <ng-container matColumnDef="rendered">
-      <th mat-header-cell *matHeaderCellDef> Rendu </th>
-      <td mat-cell *matCellDef="let element"> {{element.rendered}} </td>
-    </ng-container>
-
-    <!-- Author Column -->
-    <ng-container matColumnDef="author">
-      <th mat-header-cell *matHeaderCellDef> Auteur </th>
-      <td mat-cell *matCellDef="let element"> {{element.author}} </td>
-    </ng-container>
-
-    <!-- Subject Column -->
-    <ng-container matColumnDef="subject">
-      <th mat-header-cell *matHeaderCellDef> Matière </th>
-      <td mat-cell *matCellDef="let element"> {{element.subject.name}} </td>
-    </ng-container>
-
-    <!-- Subject photo Column -->
-    <ng-container matColumnDef="photo">
-      <th mat-header-cell *matHeaderCellDef> Photo </th>
-      <td mat-cell *matCellDef="let element"> <img src="{{element.subject.photo}}"> </td>
-    </ng-container>
-
-    <!-- Rating Column -->
-    <ng-container matColumnDef="rating">
-      <th mat-header-cell *matHeaderCellDef> Note </th>
-      <td mat-cell *matCellDef="let element"> {{element.rating}} </td>
-    </ng-container>
-
-    <!-- Remarks Column -->
-    <ng-container matColumnDef="remarks">
-      <th mat-header-cell *matHeaderCellDef> Remarque </th>
-      <td mat-cell *matCellDef="let element"> {{element.remarks}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="teacher_photo">
-        <th mat-header-cell *matHeaderCellDef> Professeur </th>
-        <td mat-cell *matCellDef="let element"> <img src="{{element.subject.teacher_photo}}"> </td>
-      </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                 showFirstLastButtons
-                 aria-label="Selection de la page des assigments"
-                 (page)="handlePage($event)"
-                 class="demo-paginator"
-                 [length]="totalPages"
-                 [pageSize]="limit"
-                 [pageIndex]="page"
-  >
-  </mat-paginator>
-
-  
-<h1>Affichage avec mat-list / mat-list-item</h1>
-    <mat-list *ngFor="let a of assignments">
-        <a routerLink="/assignments/{{a.id}}">
-            <h3 mat-subheader>Date limite: {{a.deadline | date: 'dd/MM/yy'}}</h3>
-            <mat-list-item>
-                <p appRendu *ngIf="a.rendered; else nonsoumis">
-                    {{a.title}} id = {{a._id}}
-                </p>
-                <ng-template #nonsoumis>
-                    {{a.title}} NON RENDU id = {{a._id}}
-                </ng-template>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-        </a>
-    </mat-list>
-    
-
-    <h1>Exemple de scrolling virtuel infini</h1>
-    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" #scroller>
-    <mat-list *cdkVirtualFor="let a of assignments">
-        <a routerLink="/assignments/{{a.id}}">
-            <h3 mat-subheader>Date limite: {{a.deadline | date: 'dd/MM/yy'}}</h3>
-            <mat-list-item>
-                <p appRendu *ngIf="a.rendered; else nonsoumis">
-                    {{a.title}} id = {{a._id}}
-                </p>
-                <ng-template #nonsoumis>
-                    {{a.title}} NON RENDU id = {{a._id}}
-                </ng-template>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-        </a>
-    </mat-list>
-</cdk-virtual-scroll-viewport>
 
 </main>

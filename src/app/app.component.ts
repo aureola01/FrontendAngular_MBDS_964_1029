@@ -28,7 +28,16 @@ export class AppComponent {
 
 
   }
+  isLoggedIn() {
+    return this.authService.isLoggedIn();
+  }
+  logout() {
+    // Effacer les données du localStorage
+    localStorage.clear();
 
+    // Rediriger vers /login
+    this.router.navigate(['/login']);
+  }
   // login() {
   //   // utilise l'authService pour se connecter
   //   if(!this.authService.loggedIn) {
