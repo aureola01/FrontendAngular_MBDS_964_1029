@@ -3,17 +3,17 @@
 AH-THAN FIOMBONANA Marie Auréola .Numéro: 01  
 RANDRIAMIHANTA Ny Aina Fanilo .Numéro: 43  
 
-Les membres de l'équipe s'est distribué les taches et ont chacun participé grandement dans la réalisation du projet.  
+Les membres de l'équipe se sont distribués les tâches et ont chacun participé grandement dans la réalisation du projet.  
 
 La partie frontend est hebergé sur render.com : https://frontend-mbds-964-1029.onrender.com/
 
-Voici les exemples de credentials pour pouvoir 'identifier à l'application.  
+Voici les exemples de credentials pour pouvoir s'identifier à l'application.  
 Exemple User(élève)  
 - name: John Doe
 - email : john.doe@example.com
 - password : root
 
-Ex Admin(professeur) :  
+Exemple Admin(professeur) :  
 - name: Alice Johnson
 - email : alice.johnson@example.com
 - password : admin
