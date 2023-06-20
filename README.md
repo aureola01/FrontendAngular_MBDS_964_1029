@@ -16,7 +16,7 @@ Exemple User(élève)
 Exemple Admin(professeur) :  
 - name: Alice Johnson
 - email : alice.johnson@example.com
-- password : admin
+- password : root
 
 ## Travail réalisé:
 I- Ajouter une Toolbar pour la présentation 
