@@ -31,7 +31,7 @@ III- Affichage et rendu
 - Modification de l'affichage de la liste des assignments suivant la nouvelle structure du modèle *Assignment*.
 - Amélioration de l'affichage du login.
 - Amélioration de l'affichage des ajout et modification d'*Assignment*.
-- Amélioration de l'affichage qui montre les détails d'un *Assignment*.
+- Amélioration de l'affichage qui montre les détails d'un *Assignment*. Le moyen pour accéder au détail est l'appui sur le lien de l'id d'un Assignment dans la liste.  
 
 IV- Contribution extra :
 - Ajout loading (lottie) avec l'aide de Chatgpt.
