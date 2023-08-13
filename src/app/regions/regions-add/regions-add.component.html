@@ -1,0 +1,12 @@
+<div ngForm #regionForm (submit)="onSubmit($event)" class="form">
+    <h1>Ajout Region</h1>
+    <form ngForm class="form">
+      <mat-form-field>
+        <input matInput placeholder="Saisi du nom" [(ngModel)]="nom" name="region-name" required>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button color="primary">
+        Ajouter
+      </button>
+    </form>
+</div>

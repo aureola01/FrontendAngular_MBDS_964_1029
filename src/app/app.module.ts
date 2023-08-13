@@ -21,71 +21,77 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { JwtModule, JWT_OPTIONS, JwtModuleOptions } from '@auth0/angular-jwt';
 
-
-import { AssignmentsComponent } from './assignments/assignments.component';
-import { RenduDirective } from './shared/rendu.directive';
-import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
-import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
-import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
 import { Routes, RouterModule } from '@angular/router';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
-import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
-import { AuthGuard } from './shared/auth.guard';
-import { RoleGuard } from './shared/role.guard';
-import { LoginComponent } from './login/login.component';
-
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { RegionsAddComponent } from './regions/regions-add/regions-add.component';
+import { RegionsEditComponent } from './regions/regions-edit/regions-edit.component';
+import { RegionsComponent } from './regions/regions.component';
+import { FormsModule } from '@angular/forms';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: AssignmentsComponent,
-    canActivate: [AuthGuard]
+    component: RegionsComponent
   },
   {
-    path: 'home',
-    component: AssignmentsComponent,
-    canActivate: [AuthGuard]
+    path: 'regions',
+    component: RegionsComponent
   },
   {
-    path: 'add',
-    component: AddAssignmentComponent,
-    canActivate: [AuthGuard]
+    path: 'regions/:id/edit',
+    component: RegionsEditComponent
   },
   {
-    path: 'assignments/:id',
-    component: AssignmentDetailComponent,
-    canActivate: [AuthGuard]
+    path: 'regions/add',
+    component: RegionsAddComponent
   },
-  {
-    path: 'assignments/:id/edit',
-    component: EditAssignmentComponent,
-    canActivate: [RoleGuard]
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  }
+  // {
+  //   path: '',
+  //   component: AssignmentsComponent,
+  //   canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'home',
+  //   component: AssignmentsComponent,
+  //   canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'add',
+  //   component: AddAssignmentComponent,
+  //   canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'assignments/:id',
+  //   component: AssignmentDetailComponent,
+  //   canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'assignments/:id/edit',
+  //   component: EditAssignmentComponent,
+  //   canActivate: [RoleGuard]
+  // },
+  // {
+  //   path: 'login',
+  //   component: LoginComponent
+  // }
 ]
-const jwtOptions: JwtModuleOptions = {
-  config: {
-    tokenGetter: () => localStorage.getItem('token'),
-    allowedDomains: ['http://localhost:8010'],
-    disallowedRoutes: ['http://localhost:8010/api/login']
-  }
-};
+// const jwtOptions: JwtModuleOptions = {
+//   config: {
+//     tokenGetter: () => localStorage.getItem('token'),
+//     allowedDomains: ['http://localhost:8010'],
+//     disallowedRoutes: ['http://localhost:8010/api/login']
+//   }
+// };
 @NgModule({
   declarations: [
     AppComponent,
-    AssignmentsComponent,
-    RenduDirective,
-    AssignmentDetailComponent,
-    AddAssignmentComponent,
-    EditAssignmentComponent,
-    LoginComponent
+    RegionsComponent,
+    RegionsEditComponent,
+    RegionsAddComponent
   ],
   imports: [
     BrowserModule,
@@ -98,9 +104,11 @@ const jwtOptions: JwtModuleOptions = {
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
     MatTableModule, MatPaginatorModule,
     MatToolbarModule,
-    JwtModule.forRoot(jwtOptions)
+    // JwtModule.forRoot(jwtOptions)
   ],
-  providers: [JwtHelperService],
+  providers: [
+    JwtHelperService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

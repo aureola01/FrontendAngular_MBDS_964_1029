@@ -1,0 +1,12 @@
+<div class="container" >
+    <h1>Edition Region {{regionId}}</h1>
+    <form ngForm class="form" #formupdate (submit)="onSaveRegion(); formupdate.reset(); ">
+      <mat-form-field>
+        <input matInput placeholder="Edition du nom" [(ngModel)]="nomRegion" name="region-name">
+      </mat-form-field>
+      <br>
+      <button mat-raised-button color="primary" [disabled]="(!nomRegion)">
+        Sauver
+      </button>
+    </form>
+</div>
